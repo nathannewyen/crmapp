@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import {useSelector} from 'react-redux';
+import {Routes, Route, useNavigate} from 'react-router-dom';
+import Register from './components/Register';
+import Login from './components/Login';
+import Home from './components/Home'
+import LeadsPage from "./components/LeadsPage";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const navigate = useNavigate()
+    const user = useSelector((state) => state.user.user);
+
+    return (
+        <Routes>
+            {!user && (
+                <>
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/leads" element={<LeadsPage />} />
+                </>
+            )}
+            <Route path="/" element={<Home navigate={navigate} user={user} />} />
+        </Routes>
+    );
 }
 
 export default App;
